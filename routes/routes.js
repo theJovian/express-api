@@ -4,7 +4,7 @@ const pool = require('../data/config');
 const router = app => {
     app.get('/api', (request, response) => {
         response.send({
-            message: 'I am a fucking pro'
+            message: 'Now I am really a fucking pro'
         });
     });
     app.get('/users', (request, response) => {
