@@ -8,7 +8,7 @@ const router = app => {
         });
     });
     app.get('/api/users', async (request, response) => {
-        await pool.query('SELECT * FROM users', (error, result) => {
+        await pool.query('SELECT * FROM Users', (error, result) => {
             if (error) throw error;
 
             response.send(result);
@@ -23,7 +23,7 @@ const router = app => {
     app.get('/users/:id', (request, response) => {
         const id = request.params.id;
 
-        pool.query('SELECT * FROM users WHERE id = ?', id, (error, result) => {
+        pool.query('SELECT * FROM Users WHERE id = ?', id, (error, result) => {
             if (error) throw error;
 
             response.send(result);
@@ -31,7 +31,7 @@ const router = app => {
     });
     // Add a new user
     app.post('/users', (request, response) => {
-        pool.query('INSERT INTO users SET ?', request.body, (error, result) => {
+        pool.query('INSERT INTO Users SET ?', request.body, (error, result) => {
             if (error) throw error;
 
             response.status(201).send(`User added with ID: ${result.insertId}`);
@@ -41,7 +41,7 @@ const router = app => {
     app.put('/users/:id', (request, response) => {
         const id = request.params.id;
 
-        pool.query('UPDATE users SET ? WHERE id = ?', [request.body, id], (error, result) => {
+        pool.query('UPDATE Users SET ? WHERE id = ?', [request.body, id], (error, result) => {
             if (error) throw error;
 
             response.send('User updated successfully.');
@@ -51,7 +51,7 @@ const router = app => {
     app.delete('/users/:id', (request, response) => {
         const id = request.params.id;
 
-        pool.query('DELETE FROM users WHERE id = ?', id, (error, result) => {
+        pool.query('DELETE FROM Users WHERE id = ?', id, (error, result) => {
             if (error) throw error;
 
             response.send('User deleted.');
