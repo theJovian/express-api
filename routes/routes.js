@@ -14,6 +14,11 @@ const router = app => {
             response.send(result);
         });
     });
+    app.get('/api/test', async (request, response) => {
+        response.send({
+            message: 'this is a test lol'
+        });
+    });
     // Display a single user by ID
     app.get('/users/:id', (request, response) => {
         const id = request.params.id;
