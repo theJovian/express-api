@@ -2,7 +2,7 @@
 const pool = require('../data/config');
 
 const router = app => {
-    app.get('/', (request, response) => {
+    app.get('/api', (request, response) => {
         response.send({
             message: 'Node.js and Express REST API'
         });
