@@ -7,7 +7,7 @@ const router = app => {
             message: 'Now I am really a fucking pro'
         });
     });
-    app.get('/users', (request, response) => {
+    app.get('/api/users', (request, response) => {
         pool.query('SELECT * FROM users', (error, result) => {
             if (error) throw error;
 
