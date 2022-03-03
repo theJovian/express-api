@@ -1,5 +1,7 @@
 // Load the MySQL pool connection
 const pool = require('../data/config');
+const user = require('./Users/user')
+const experience =require('./Experiences/experience')
 
 const router = app => {
     app.get('/api', (request, response) => {
@@ -7,56 +9,13 @@ const router = app => {
             message: 'Now I am really a fucking pro'
         });
     });
-    app.get('/api/users', async (request, response) => {
-        await pool.query('SELECT * FROM Users', (error, result) => {
-            if (error) throw error;
-
-            response.send(result);
-        });
-    });
     app.get('/api/test', async (request, response) => {
         response.send({
             message: 'this is a test lol'
         });
     });
-    // Display a single user by ID
-    app.get('/api/users/:id', async (request, response) => {
-        const id = request.params.id;
-
-        await pool.query('SELECT * FROM Users WHERE id = ?', id, (error, result) => {
-            if (error) throw error;
-
-            response.send(result[0]);
-        });
-    });
-    // Add a new user
-    app.post('/users', (request, response) => {
-        pool.query('INSERT INTO Users SET ?', request.body, (error, result) => {
-            if (error) throw error;
-
-            response.status(201).send(`User added with ID: ${result.insertId}`);
-        });
-    });
-    // Update an existing user
-    app.put('/users/:id', (request, response) => {
-        const id = request.params.id;
-
-        pool.query('UPDATE Users SET ? WHERE id = ?', [request.body, id], (error, result) => {
-            if (error) throw error;
-
-            response.send('User updated successfully.');
-        });
-    });
-    // Delete a user
-    app.delete('/users/:id', (request, response) => {
-        const id = request.params.id;
-
-        pool.query('DELETE FROM Users WHERE id = ?', id, (error, result) => {
-            if (error) throw error;
-
-            response.send('User deleted.');
-        });
-    });
+    user(app, pool)
+    experience(app, pool)
 }
 
 module.exports = router;
