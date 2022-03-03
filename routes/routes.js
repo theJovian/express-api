@@ -20,7 +20,7 @@ const router = app => {
         });
     });
     // Display a single user by ID
-    app.get('/users/:id', (request, response) => {
+    app.get('api/users/:id', (request, response) => {
         const id = request.params.id;
 
         pool.query('SELECT * FROM Users WHERE id = ?', id, (error, result) => {
