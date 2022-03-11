@@ -25,7 +25,7 @@ const experience = (app, pool) => {
         });
     });
     // Update an existing Experience
-    app.put('/experiences/:id', (request, response) => {
+    app.put('/api/experiences/:id', (request, response) => {
         const id = request.params.id;
 
         pool.query('UPDATE Experiences SET ? WHERE id = ?', [request.body, id], (error, result) => {
@@ -35,13 +35,22 @@ const experience = (app, pool) => {
         });
     });
     // Delete a Experience
-    app.delete('/experiences/:id', (request, response) => {
+    app.delete('/api/experiences/:id', (request, response) => {
         const id = request.params.id;
 
         pool.query('DELETE FROM Experiences WHERE id = ?', id, (error, result) => {
             if (error) throw error;
 
             response.send('Experience deleted.');
+        });
+    });
+
+    app.delete('/api/experiences', (request, response) => {
+        const ids = request.body
+        pool.query('DELETE FROM Experiences WHERE id in (?)', [ids.trash], (error, result) => {
+            if (error) throw error;
+
+            response.send('Experiences deleted.');
         });
     });
 }
