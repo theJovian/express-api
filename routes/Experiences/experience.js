@@ -47,7 +47,7 @@ const experience = (app, pool) => {
 
     app.delete('/api/experiences', (request, response) => {
         const ids = request.body
-        pool.query('DELETE FROM Experiences WHERE id in (?)', [ids], (error, result) => {
+        pool.query('DELETE FROM Experiences WHERE id in (?)', [ids.trash], (error, result) => {
             if (error) throw error;
 
             response.send('Experiences deleted.');
