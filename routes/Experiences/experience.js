@@ -49,8 +49,11 @@ const experience = (app, pool) => {
         const ids = request.body
         pool.query('DELETE FROM Experiences WHERE id in (?)', [ids.trash], (error, result) => {
             if (error) throw error;
-
-            response.send('Experiences deleted.');
+            if(result.affectedRows === 0){
+                response.send('Experiences ID does not exists')
+            }else {
+                response.send('Experiences deleted successfully');
+            }
         });
     });
 }
