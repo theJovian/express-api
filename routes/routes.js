@@ -2,6 +2,7 @@
 const pool = require('../data/config');
 const user = require('./Users/user')
 const experience =require('./Experiences/experience')
+const iteration =require('./Iterations/iteration')
 
 const router = app => {
     app.get('/api', (request, response) => {
@@ -16,6 +17,7 @@ const router = app => {
     });
     user(app, pool)
     experience(app, pool)
+    iteration(app, pool)
 }
 
 module.exports = router;
