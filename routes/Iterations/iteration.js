@@ -1,10 +1,31 @@
 const iteration = (app, pool) => {
     app.get('/api/iterations/:id', async (request, response) => {
         const id = request.params.id;
-        await pool.query('SELECT * FROM Iterations WHERE experienceId = ?', id, (error, result) => {
+         await pool.query('SELECT Iterations.id as iterationId, n, notes, score, experienceId, text, state FROM Iterations, Items where Iterations.id = Items.iterationId and experienceId=?;', id, async(error, iterations) => {
             if (error) throw error;
+            const result = []
+             iterations.forEach(iteration => {
+                 const index = result.findIndex((it) => it.id === iteration.iterationId)
+                 if(index !== -1){
+                    result[index].items.push({text: iteration.text, state: iteration.state})
+                 }else{
+                    result.push({
+                        id: iteration.iterationId,
+                        n: iteration.n,
+                        notes: iteration.notes,
+                        score: iteration.score,
+                        experienceId: iteration.experienceId,
+                        items: [
+                            {
+                                text: iteration.text,
+                                state: iteration.state
+                            }
+                        ]
+                    })
+                 }
+             })
+            response.send(result)
 
-            response.send(result);
         });
     });
     // Display a single iteration by ID
