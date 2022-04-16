@@ -69,7 +69,8 @@ const iteration = (app, pool) => {
                     if (error) throw error;
                 })
             })
-            response.status(200).send('200')
+            const id = {id: result.insertId}
+            response.status(200).send(JSON.stringify(id))
         });
     })
     // Update an existing iteration
