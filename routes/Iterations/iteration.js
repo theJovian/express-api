@@ -1,7 +1,7 @@
 const iteration = (app, pool) => {
     app.get('/api/iterations/:id', async (request, response) => {
         const id = request.params.id;
-         await pool.query('SELECT Iterations.id as iterationId, n, notes, score, experienceId, text, state FROM Iterations, Items where Iterations.id = Items.iterationId and experienceId=?;', id, async(error, iterations) => {
+         await pool.query('SELECT Iterations.id as iterationId, n, notes, score, experienceId, image, text, state FROM Iterations, Items where Iterations.id = Items.iterationId and experienceId=?;', id, async(error, iterations) => {
             if (error) throw error;
             const result = []
              iterations.forEach(iteration => {
@@ -15,6 +15,7 @@ const iteration = (app, pool) => {
                         notes: iteration.notes,
                         score: iteration.score,
                         experienceId: iteration.experienceId,
+                        image: iteration.image,
                         items: [
                             {
                                 text: iteration.text,
@@ -48,10 +49,27 @@ const iteration = (app, pool) => {
     });
     // Add a new iteration
     app.post('/api/iteration', (request, response) => {
-        pool.query('INSERT INTO Iterations SET ?', request.body, (error, result) => {
+        console.log(JSON.stringify(request.body, null, 5))
+        const iteration = {
+            n: request.body.n,
+            notes: request.body.notes,
+            score: request.body.score,
+            experienceId: request.body.experienceId
+        }
+        pool.query('INSERT INTO Iterations SET ?', iteration, (error, result) => {
             if (error) throw error;
-
-            response.status(201).send(`iteration added with ID: ${result.insertId}`);
+            const items = request.body.items
+            items.forEach(item => {
+                const itemToInsert = {
+                    text: item.text,
+                    state: item.state,
+                    iterationId: result.insertId
+                }
+                pool.query('INSERT INTO Items SET ?', itemToInsert, (error, result) => {
+                    if (error) throw error;
+                })
+            })
+            response.status(200).send('200')
         });
     })
     // Update an existing iteration
