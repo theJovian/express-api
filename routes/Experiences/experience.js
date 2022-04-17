@@ -1,13 +1,15 @@
 const experience = (app, pool) => {
-    app.get('/api/experiences', async (request, response) => {
-        await pool.query('SELECT * FROM Experiences', (error, result) => {
+    app.get('/api/experiences/:id', async (request, response) => {
+        const userId = request.params.id;
+
+        await pool.query('SELECT * FROM Experiences where user_id=?', userId, (error, result) => {
             if (error) throw error;
 
             response.send(result);
         });
     });
     // Display a single Experience by ID
-    app.get('/api/experiences/:id', async (request, response) => {
+    app.get('/api/experience/:id', async (request, response) => {
         const id = request.params.id;
 
         await pool.query('SELECT * FROM Experiences WHERE id = ?', id, (error, result) => {
