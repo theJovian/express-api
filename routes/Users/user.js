@@ -35,13 +35,13 @@ const user = (app, pool) => {
         });
     });
     // Delete a user
-    app.delete('/api/users/:id', (request, response) => {
+    app.delete('/api/users/:id', async (request, response) => {
         const id = request.params.id;
 
         pool.query('DELETE FROM Users WHERE id = ?', id, (error, result) => {
-            if (error) throw error;
+            // if (error) throw error;
 
-            response.send('User deleted.');
+            response.send(error);
         });
     });
 }
