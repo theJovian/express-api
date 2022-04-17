@@ -25,7 +25,7 @@ const user = (app, pool) => {
         });
     });
     // Update an existing user
-    app.put('/users/:id', (request, response) => {
+    app.put('/api/users/:id', (request, response) => {
         const id = request.params.id;
 
         pool.query('UPDATE Users SET ? WHERE id = ?', [request.body, id], (error, result) => {
@@ -35,7 +35,7 @@ const user = (app, pool) => {
         });
     });
     // Delete a user
-    app.delete('/users/:id', (request, response) => {
+    app.delete('/api/users/:id', (request, response) => {
         const id = request.params.id;
 
         pool.query('DELETE FROM Users WHERE id = ?', id, (error, result) => {
