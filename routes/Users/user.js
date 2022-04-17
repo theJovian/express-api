@@ -39,9 +39,9 @@ const user = (app, pool) => {
         const id = request.params.id;
 
         pool.query('DELETE FROM Users WHERE id = ?', id, (error, result) => {
-            // if (error) throw error;
+            if (error) throw error;
 
-            response.send(error);
+            response.send('User deleted.');
         });
     });
 }
