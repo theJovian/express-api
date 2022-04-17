@@ -21,7 +21,7 @@ const user = (app, pool) => {
         pool.query('INSERT INTO Users SET ?', request.body, (error, result) => {
             if (error) throw error;
 
-            response.status(201).send(`User added with ID: ${result.insertId}`);
+            response.status(201).send(JSON.stringify({username: request.body.username, email: request.body.email, id: result.insertId }));
         });
     });
     // Update an existing user
