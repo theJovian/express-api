@@ -23,7 +23,7 @@ const experience = (app, pool) => {
         pool.query('INSERT INTO Experiences SET ?', request.body, (error, result) => {
             if (error) throw error;
 
-            response.status(201).send(`Experience added with ID: ${result.insertId}`);
+            response.status(201).send(result);
         });
     });
     // Update an existing Experience
