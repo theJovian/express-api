@@ -1,16 +1,16 @@
 const user = (app, pool) => {
-    app.get('/api/users', async (request, response) => {
-        await pool.query('SELECT * FROM Users', (error, result) => {
-            if (error) throw error;
-
-            response.send(result);
-        });
-    });
+    // app.get('/api/users', async (request, response) => {
+    //     await pool.query('SELECT * FROM Users', (error, result) => {
+    //         if (error) throw error;
+    //
+    //         response.send(result);
+    //     });
+    // });
     // Display a single user by ID
-    app.get('/api/users/:id', async (request, response) => {
-        const id = request.params.id;
+    app.get('/api/users/:email', async (request, response) => {
+        const email = request.params.email;
 
-        await pool.query('SELECT * FROM Users WHERE id = ?', id, (error, result) => {
+        await pool.query('SELECT id, username, email FROM Users WHERE email = ?', email, (error, result) => {
             if (error) throw error;
 
             response.send(result[0]);
